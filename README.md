@@ -15,5 +15,5 @@ In order to use it, one shall extend the User and the Resource classes and final
 
 ### Running the tests
 
-prove -Ilib t/
+In order to run the tests, just run 'rake'.
 
