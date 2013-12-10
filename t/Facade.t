@@ -1,4 +1,4 @@
-use Test::Simple tests => 4;
+use Test::Simple tests => 6;
 
 use PRAF::Facade;
 use PRAF::User;
@@ -13,5 +13,15 @@ ok($facade->user == $user, "Facade User set correctly");
 ok($facade->resource == $resource, "Facade Resource set correctly");
 
 $facade->instantiate($user, $resource);
-ok($facade->resource->user == $user);
+ok($facade->resource->user == $user, 'facade user is the same user');
+$facade->create_user;
+ok(pop(PRAF::User->users) == $user, 'user in the array is the right one');
+$facade->create_user;
+my @users = $facade->get_users;
+ok(@users == 1, 'users count is 1');
+#my $new_user = PRAF::User->new(name => 'My New Name', registrationNumber => '54321');
+#$facade->update_user('12345', $new_user);
+#my $test_user = $users[0];
+#ok($test_user->registrationNumber == '54321', 'user must have been edited');
+#ok(@users == 1, '@users count remain 1');
 
