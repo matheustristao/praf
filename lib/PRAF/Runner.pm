@@ -1,9 +1,9 @@
-package Runner;
+package PRAF::Runner;
 
 use Moose;
-use Facade;
+use PRAF::Facade;
 
-has 'facade' => (is => 'rw', isa => 'Facade');
+has 'facade' => (is => 'rw', isa => 'PRAF::Facade');
 
 sub allocate {
     my $self = shift;

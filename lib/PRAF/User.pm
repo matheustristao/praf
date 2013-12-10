@@ -1,4 +1,4 @@
-package User;
+package PRAF::User;
 use Moose;
 
 has 'name' => (is => 'rw', isa => 'Str');
