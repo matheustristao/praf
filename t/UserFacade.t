@@ -1,4 +1,4 @@
-use Test::Simple tests => 12;
+use Test::Simple tests => 15;
 
 use PRAF::UserFacade;
 use PRAF::User;
@@ -32,4 +32,22 @@ ok(scalar(@users_arr) == 1, 'users count is 1');
 $user_facade->delete_user($deleted_user);
 @users_arr = @{PRAF::User->users};
 ok(scalar(@users_arr) == 0, 'user was deleted');
+
+#testing user array size
+my $user_1 = $user_facade->create_user("My Name here", "1");
+my $user_2 = $user_facade->create_user("My Name here", "2");
+my $user_3 = $user_facade->create_user("My Name here", "3");
+my $user_4 = $user_facade->create_user("My Name here", "4");
+my $user_5 = $user_facade->create_user("My Name here", "5");
+@users_arr = @{PRAF::User->users};
+ok(scalar(@users_arr) == 5, '5 users created');
+$user_facade->delete_user($user_1);
+@users_arr = @{PRAF::User->users};
+ok(scalar(@users_arr) == 4, '1 user deleted');
+$user_facade->delete_user($user_2);
+$user_facade->delete_user($user_3);
+$user_facade->delete_user($user_4);
+$user_facade->delete_user($user_5);
+@users_arr = @{PRAF::User->users};
+ok(scalar(@users_arr) == 0, 'all users removed');
 
