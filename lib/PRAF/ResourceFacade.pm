@@ -21,11 +21,26 @@ sub get_resources {
 }
 
 sub update_resource {
-    ...
+    my $self = shift;
+    my $resource = shift;
+    my $name = shift;
+    my $description = shift;
+    my $number = shift;
+    my $user = shift;
+    $resource->{name} = $name if defined($name);
+    $resource->{description} = $description if defined($description);
+    $resource->{number} = $number if defined($number);	
+    $resource->{user} = $user if defined($user);
 }
 
 sub delete_resource {
-    ...
+    my $self = shift;
+    my $resource = shift;
+    my @resources = $self->get_resources();
+    foreach my $test_resource (0..(@resources-1)) {
+        $test_resource = shift PRAF::Resource->resources;
+        push(PRAF::Resource->resources, $test_resource) unless $test_resource->number eq $resource->{number};
+    }
 }
 
 1;
