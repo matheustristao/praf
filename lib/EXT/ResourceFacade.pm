@@ -1,6 +1,10 @@
 package EXT::ResourceFacade;
 use Moose;
 
+use PRAF::Resource;
+
+use EXT::Book;
+
 extends 'PRAF::ResourceFacade';
 
 override 'create_resource' => sub {

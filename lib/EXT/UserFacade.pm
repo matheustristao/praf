@@ -1,6 +1,10 @@
 package EXT::UserFacade;
 use Moose;
 
+use PRAF::User;
+
+use EXT::Student;
+
 extends 'PRAF::UserFacade';
 
 override 'create_user' => sub {
