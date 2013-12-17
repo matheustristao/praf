@@ -1,4 +1,4 @@
-use Test::Simple tests => 3;
+use Test::Simple tests => 16;
 
 use PRAF::ResourceFacade;
 use PRAF::Resource;
@@ -13,22 +13,22 @@ my @resources = $resource_facade->get_resources;
 ok(@resources == 1, 'resources count is 1');
 
 #update
-ok($resouce->name eq "My Name", 'testing resource object');
+ok($resource->name eq "My Name", 'testing resource object');
 $resource_facade->update_resource($resource, undef, undef);
 ok($resource->name eq "My Name", 'name did not change');
-$resource_facade->update_resource($resource, 'notebook', undef);
-ok($resource->name eq "notebook", 'name changed');
+$resource_facade->update_resource($resource, 'Book', undef);
+ok($resource->name eq "Book", 'name changed');
 ok($resource->description eq "My description", 'description did not change');
 ok($resource->number eq "12345", 'number did not change');
 ok(@resources == 1, 'resources count did not change');
 $array_resource = pop(PRAF::Resource->resources);
-ok($array_resource->name eq "notebook", 'array resource changed');
+ok($array_resource->name eq "Book", 'array resource changed');
 
 #delete
 my @resources_arr = @{PRAF::Resource->resources};
 pop(@resources_arr);
 ok(scalar(@resources_arr) == 0, 'resources count is 0');
-my $deleted_resources = $resource_facade->create_resource("My Name here","My description here" ,"123456");
+my $deleted_resources = $resource_facade->create_resource("My Name here","My description here" ,"123456", $user);
 @resources_arr = @{PRAF::Resource->resource};
 ok(scalar(@resources_arr) == 1, 'resource count is 1');
 $resource_facade->delete_resource($deleted_resource);
@@ -50,6 +50,6 @@ $resource_facade->delete_resource($resource_2);
 $resource_facade->delete_resource($resource_3);
 $resource_facade->delete_resource($resource_4);
 $resource_facade->delete_resource($resource_5);
-@resource_arr = @{PRAF::Resource->resources};
+@resources_arr = @{PRAF::Resource->resources};
 ok(scalar(@resources_arr) == 0, 'all resources removed');
 

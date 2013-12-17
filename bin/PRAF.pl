@@ -16,15 +16,15 @@ my $resource;
 
 while($option != 0) {
     print "\n";
-    print "1 - Create new Student\n";
-    print "2 - Create new Book\n\n";
-    print "3 - List all users\n";
-    print "4 - List all resources\n\n";
-    print "5 - Update User\n";
-    print "6 - Update Resource\n\n";
-    print "7 - Remove User\n";
+    print "1 - Create new Student\n"; 
+    print "2 - Create new Book\n\n"; 
+    print "3 - List all users\n"; 
+    print "4 - List all resources\n\n"; 
+    print "5 - Update User\n"; 
+    print "6 - Update Resource\n\n"; 
+    print "7 - Remove User\n"; 
     print "8 - Remove Resource\n\n";
-    print "9 - Allocate Resource\n\n";
+    print "9 - Allocate Resource\n\n"; 
     print "0 - EXIT\n";
 
     chomp($option = <>);
@@ -40,6 +40,17 @@ while($option != 0) {
         $user = $user_facade->create_user($name, $registrationNumber, 1, $course);
     }
 
+	#create book
+	   if($option == 2) {
+        print "Enter the book title: ";
+        my $title = <>;
+        print "Enter the book number: ";
+        my $number = <>;
+        print "Enter the book description: ";
+        my $description = <>;
+        $resource = $resource_facade->create_resource($title, $description, $number);
+    }
+
     #List all users
     if($option == 3) {
         my $size = scalar(@{PRAF::User->users}) - 1;
@@ -52,6 +63,21 @@ while($option != 0) {
             print "Tipo: ";
             print "Estudante\n\n" if(ref($sample_user) eq 'EXT::Student');
             push(PRAF::User->users, $sample_user);
+        }
+    }
+
+	#List all resources
+	if($option == 4) {
+        my $size = scalar(@{PRAF::Resource->resources}) - 1;
+        foreach my $sample_resource (0..($size)) {
+            $sample_resource = shift(PRAF::Resource->resources);
+            print "Name: ";
+            print $sample_resource->name;
+            print "Number: ";
+            print $sample_resource->number;
+            print "Tipo: ";
+            print "Livro\n\n" if(ref($sample_resource) eq 'EXT::Book');
+            push(PRAF::Resource->resources, $sample_resource);
         }
     }
 
@@ -73,6 +99,25 @@ while($option != 0) {
         }
     }
 
+	
+    #Update resource
+    if($option == 6) {
+        print "Enter the resource number: ";
+        my $update_number = <>;
+        my $size = scalar(@{PRAF::Resource->resources}) - 1;
+        foreach my $sample_resource (0..($size)) {
+            $sample_resource = shift(PRAF::Resource->resources);
+            if($sample_resource->number == $update_number) {
+                print "new name: ";
+                my $temp_name = <>;
+                print "new resource number: ";
+                my $temp_num = <>;
+                $resource_facade->update_resource($sample_resource, $temp_name, $temp_num);
+            }
+            push(PRAF::Resource->resources, $sample_resource);
+        }
+    }
+
     #Delete user
     if($option == 7) {
         print "Enter the User Registration number: ";
@@ -86,6 +131,22 @@ while($option != 0) {
                 last;
             }
             push(PRAF::User->users, $sample_user);
+        }
+    }
+
+	    #Delete resource
+    if($option == 8) {
+        print "Enter the resource number: ";
+        my $remove_number = <>;
+        my $size = scalar(@{PRAF::Resource->resources}) - 1;
+        foreach my $sample_resource (0..($size)) {
+            $sample_resource = shift(PRAF::Resource->resources);
+            if($sample_resource->number == $remove_number) {
+                $resource_facade->delete_resource($sample_resource);
+                print "Resource removed\n";
+                last;
+            }
+            push(PRAF::Resource->resources, $sample_resource);
         }
     }
 
